@@ -147,9 +147,8 @@ button {
     content: '×';
 }
 
-.btn-edit::after {
-	content: 'Ред.';
-	font-size: 12pt;
+.btn-edit {
+	font-size: 12pt !important;
 }
 
 .task__desc>p {
@@ -187,8 +186,4 @@ button {
         width: 100%;
     }
 
-    .btn-edit,
-    .btn-edit svg {
-        max-width: 16px;
-    }
 }

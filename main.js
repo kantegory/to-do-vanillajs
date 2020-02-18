@@ -55,6 +55,7 @@ function addTaskToContainer(task) {
 				<div class="task__heading"><p onclick="closeTask('` + task.taskHeading + `')">` + task.taskHeading + `</p><button type="button" class="btn-close" onclick="removeTask('` + task.taskHeading + `')"></button></div>
 				<div class="task__desc mt-2"><p>` + task.taskDesc + `</p>
 					<button type="button" class="btn-edit" onclick="editTask('` + task.taskHeading + `')">
+                        Ред.
 					</button>
 				</div>
 			</div>
@@ -65,6 +66,7 @@ function addTaskToContainer(task) {
 				<div class="task__heading"><p onclick="closeTask('` + task.taskHeading + `')">` + task.taskHeading + `</p><button type="button" class="btn-close" onclick="removeTask('` + task.taskHeading + `')"></button></div>
 				<div class="task__desc mt-2"><p>` + task.taskDesc + `</p>
 					<button type="button" class="btn-edit" onclick="editTask('` + task.taskHeading + `')">
+                        Ред.
 					</button>
 				</div>
 			</div>
