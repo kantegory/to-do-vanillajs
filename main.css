@@ -147,9 +147,9 @@ button {
     content: '×';
 }
 
-.btn-edit,
-.btn-edit svg {
-    max-width: 28px;
+.btn-edit::after {
+	content: 'Ред.';
+	font-size: 12pt;
 }
 
 .task__desc>p {
