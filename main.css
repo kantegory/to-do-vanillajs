@@ -144,45 +144,45 @@ button {
 }
 
 .btn-close::after {
-        content: '×';
+    content: '×';
+}
+
+.btn-edit, .btn-edit svg {
+    max-width: 28px;
+}
+
+.task__desc>p {
+    font-size: 12pt;
+    color: #a6a6a6;
+    padding: .25rem .5rem;
+}
+
+.closed {
+    text-decoration: line-through !important;
+    color: #a6a6a6;
+    order: 9999;
+}
+
+@media (min-width: 769px) and (max-width: 1281px) {
+
+    .input-group--col,
+    .task {
+        width: 50%;
     }
+}
 
-    .btn-edit {
-        max-width: 28px;
+@media (min-width: 451px) and (max-width: 769px) {
+
+    .input-group--col,
+    .task {
+        width: 75%;
     }
+}
 
-    .task__desc>p {
-        font-size: 12pt;
-        color: #a6a6a6;
-        padding: .25rem .5rem;
+@media screen and (max-width: 451px) {
+
+    .input-group--col,
+    .task {
+        width: 100%;
     }
-
-    .closed {
-        text-decoration: line-through !important;
-        color: #a6a6a6;
-        order: 9999;
-    }
-
-    @media (min-width: 769px) and (max-width: 1281px) {
-
-        .input-group--col,
-        .task {
-            width: 50%;
-        }
-    }
-
-    @media (min-width: 451px) and (max-width: 769px) {
-
-        .input-group--col,
-        .task {
-            width: 75%;
-        }
-    }
-
-    @media screen and (max-width: 451px) {
-
-        .input-group--col,
-        .task {
-            width: 100%;
-        }
-    }
+}
