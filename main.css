@@ -147,7 +147,8 @@ button {
     content: '×';
 }
 
-.btn-edit, .btn-edit svg {
+.btn-edit,
+.btn-edit svg {
     max-width: 28px;
 }
 
@@ -184,5 +185,10 @@ button {
     .input-group--col,
     .task {
         width: 100%;
+    }
+
+    .btn-edit,
+    .btn-edit svg {
+        max-width: 24px;
     }
 }
