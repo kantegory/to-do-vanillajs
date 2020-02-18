@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>To do</title>
+</head>
+<style>
+    /*reset css*/
+	textarea, input, button {
+	    border: none;
+	    overflow: auto;
+	    outline: none;
+		background: none;
+	    -webkit-box-shadow: none;
+	    -moz-box-shadow: none;
+	    box-shadow: none;
+
+	    resize: none; /*remove the resize handle on the bottom right*/
+	}
+
+
+	/* custom css */
+
+	html {
+		font-family: "Times New Roman", Times, serif;
+		font-size: 14pt;
+	}
+
+	p {
+		margin: 0;
+		padding: 0;
+	}
+
+    .input-group--col, .form, .container {
+		display: flex;
+		flex-flow: column wrap;
+		justify-content: center;
+		margin: 0 auto;
+	}
+
+	.input-group--col {
+		width: 25%;
+	}
+
+	textarea.input-control::placeholder, input.input-control::placeholder, textarea.input-control, input.input-control {
+		font-family: "Times New Roman", Times, serif;
+	}
+
+	.input-control {
+		padding: .25rem .5rem;
+		border: 1px solid #dee2e6;
+	}
+
+	input.input-control {
+		font-size: 16pt;
+	}
+
+	.input-control:focus, .btn:focus {
+		outline: 3px solid #529dec;
+	}
+
+	.error {
+		outline: 3px solid #dc3545;
+	}
+
+	button {
+		text-transform: none;
+	}
+
+	.btn {
+		cursor: pointer;
+		display: inline-block;
+		font-weight: 400;
+		color: #212529;
+		text-align: center;
+		vertical-align: middle;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		background-color: transparent;
+		border: 1px solid transparent;
+		padding: .25rem .5rem;
+		font-size: 1rem;
+		line-height: 1.5;
+		border-radius: .25rem;
+		transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	}
+	
+	.btn-primary {
+		color: #fff;
+		background-color: #007bff;
+		border-color: #007bff;
+	}
+	
+	.btn-primary:hover {
+		background-color: #197ce6;
+	}
+
+	.mt-2 {
+		margin-top: .5rem !important;
+	}
+
+	.task {
+		width: 25%;
+		box-sizing: border-box;
+		border: 1px solid #dee2e6;
+		display: flex;
+		flex-flow: column wrap;
+		justify-content: flex-start;
+		margin: 0 auto;
+	}
+
+	.task__heading {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: flex-start;
+	}
+
+	.task__heading > p {
+		font-size: 16pt;
+		font-weight: 500;
+		padding: .25rem .5rem;
+
+	}
+
+	.task__heading .btn-close {
+		font-size: 16pt;
+		font-weight: 500;
+		color: #a6a6a6;
+		cursor: pointer;
+		margin-left: auto;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	.btn-close::after {
+		content: '×';
+	}
+
+	.task__desc {
+		font-size: 12pt;
+		color: #a6a6a6;
+		padding: .25rem .5rem;
+		
+	}
+</style>
+
+<body>
+    <main>
+        <form class="form" onsubmit="newTask(event)">
+            <div class="input-group--col">
+                <input type="text" class="input-control" id="taskHeading" placeholder="Название задания" required>
+                <textarea id="taskDesc" class="input-control mt-2" cols="30" rows="5" placeholder="Описание задания"></textarea>
+                <button class="btn btn-primary mt-2" type="submit">Записать</button>
+            </div>
+        </form>
+        <div class="container mt-2" id="container">
+        </div>
+    </main>
+</body>
+<script type="text/javascript">
+function newTask(event) {
+    event.preventDefault();
+
+    let taskHeading = document.querySelector('#taskHeading');
+    let taskHeadingValue = taskHeading.value;
+
+    if (taskHeadingValue !== '') {
+
+        let taskDesc = document.querySelector('#taskDesc');
+        let taskDescValue = taskDesc.value;
+
+        const task = {
+            'taskHeading': taskHeadingValue,
+            'taskDesc': taskDescValue
+        }
+
+        let taskJSON = JSON.stringify(task);
+
+        saveTask(task);
+
+        // reset
+        taskHeading.value = '';
+        taskDesc.value = '';
+    } else {
+        taskHeading.classList.add('error');
+
+        setTimeout(() => taskHeading.classList.remove('error'), 2500);
+    }
+}
+
+function saveTask(task) {
+
+    let tasks = getAllTasks();
+
+    let currTaskHeading = task.taskHeading;
+
+    let tasksHeading = tasks.map((elem) => elem.taskHeading);
+
+    if (tasksHeading.includes(currTaskHeading) === false) {
+        tasks.push(task);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    addTaskToContainer(task);
+
+}
+
+function addTaskToContainer(task) {
+    let container = document.querySelector('#container');
+
+    container.innerHTML += `
+		<div class="task mt-2">
+			<div class="task__heading"><p>` + task.taskHeading + `</p><button type="button" class="btn-close" onclick="removeTask('` + task.taskHeading + `')"></button></div>
+			<p class="task__desc mt-2">` + task.taskDesc + `</p>
+		</div>
+	`;
+}
+
+
+function getAllTasks() {
+    let tasks = [];
+    tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    return tasks;
+}
+
+function initTasks() {
+    let container = document.querySelector('#container');
+    container.innerHTML = '';
+
+    let tasks = getAllTasks();
+
+    for (let i = 0; i < tasks.length; i++) {
+        addTaskToContainer(tasks[i]);
+    }
+}
+
+function removeTask(taskHeading) {
+    let tasks = getAllTasks();
+
+    for (let i = 0; i < tasks.length; i++) {
+        if (taskHeading === tasks[i].taskHeading) {
+            tasks.splice(i, i + 1);
+
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+
+            initTasks();
+        }
+    }
+}
+
+initTasks()
+</script>
+
+</html>
